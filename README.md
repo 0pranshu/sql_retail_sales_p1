@@ -3,8 +3,7 @@
 
 ## Project Overview
 
-**Project Title**: Retail Sales Analysis  
-**Level**: Beginner  
+**Project Title**: Retail Sales Analysis   
 **Database**: `p1_retail_db`
 
 This project is designed to demonstrate SQL skills and techniques typically used by data analysts to explore, clean, and analyze retail sales data. The project involves setting up a retail sales database, performing exploratory data analysis (EDA), and answering specific business questions through SQL queries. This project is ideal for those who are starting their journey in data analysis and want to build a solid foundation in SQL.
@@ -71,22 +70,132 @@ WHERE
 
 The following SQL queries were developed to answer specific business questions:
 
-1. **Total Transactions** - Counted the number of transactions.
-2. **Total Revenue** - Computed total revenue generated from all sales.
-3. **Average Quantity Sold** - Determined the average number of items sold per transaction.
-4. **Peak Sales Hour** - Identified the time of day with the highest sales.
-5. **Best Sales Day** - Analyzed which day of the week had the highest sales.
-6. **Monthly Sales Trend** - Tracked sales performance over different months.
-7. **Gender-based Sales Analysis** - Compared total sales by gender.
-8. **Customer Age Analysis** - Computed the average age of customers making purchases.
-9. **Top Spenders** - Identified the top 5 highest-spending customers.
-10. **Best-Selling Categories** - Found the top 3 most sold product categories.
-11. **Highest Revenue-Generating Category** - Analyzed which category generates the most revenue.
-12. **Most Profitable Category** - Identified the category with the highest profit margin (`total_sale - cogs`).
-13. **Sales Contribution from Customers Aged Above 40** - Measured their sales percentage.
-14. **Sales & Average Quantity by Category** - Analyzed sales and average quantity per transaction per category.
-15. **Weekend vs. Weekday Sales** - Compared sales trends on weekends versus weekdays.
+1. **How many total transactions have been recorded in the dataset?**
+   '''sql  
+SELECT  
+	COUNT(*) AS total_transactions 
+  FROM retail_sales;
+   '''
+2. **What is the total revenue generated from all sales?**
+   '''sql
+  SELECT
+  SUM (Total_sale) AS total_Sale   
+  FROM retail_sales;
+   '''
+3. **What is the average quantity of items sold per transaction?**
+   '''sql
+  SELECT 
+	  ROUND(AVG(quantiy), 2) AS avg_quantity_per_transaction  
+  FROM retail_sales;
+   '''
+4. **What is the peak sales hour of the day based on total sales value?**
+   '''sql 
+SELECT 
+    EXTRACT(HOUR FROM sale_time) AS sales_hour, 
+    SUM(total_sale) AS total_revenue
+FROM retail_sales
+GROUP BY sales_hour
+ORDER BY total_revenue DESC
+LIMIT 1;
+   '''
+5. **Which day of the week records the highest sales volume?**
+   '''sql
+SELECT 
+    TO_CHAR(sale_date, 'day') AS sales_day, 
+    SUM(total_sale) AS total_revenue
+FROM retail_sales
+GROUP BY sales_day
+ORDER BY total_revenue DESC
+LIMIT 1;
+   '''
 
+6. **What is the monthly trend of total sales in the dataset?**
+   '''sql
+SELECT 
+    TO_CHAR(sale_date, 'YYYY-MM') AS sales_month, 
+    SUM(total_sale) AS total_revenue
+FROM retail_sales
+GROUP BY sales_month
+ORDER BY sales_month;
+   '''
+7. **What is the gender-wise distribution of total sales?**
+   '''sql
+SELECT gender,
+      SUM(total_sale) AS total_sales
+FROM retail_sales
+GROUP BY gender;
+   '''
+8. **What is the average age of customers making purchases?**
+   '''sql
+SELECT 
+    ROUND( AVG( age),2) AS avg_age
+FROM retail_sales
+   '''  
+9. **Identify the top 5 highest-spending customers based on total sales.**
+   '''sql
+SELECT customer_id,
+      SUM(total_sale) AS total_sale
+FROM retail_sales
+GROUP BY 1
+ORDER BY 2 DESC
+LIMIT 5
+   '''
+10. **What are the top 3 most sold product categories by quantity?**
+    '''sql
+SELECT category,
+      SUM(quantiy) AS total_quantiy
+FROM retail_sales
+GROUP BY 1
+ORDER BY 2 DESC
+   '''
+
+11. **Which product category generates the highest total sales revenue?**
+    '''sql
+SELECT category,
+       SUM(total_sale) AS total_sales_revenue
+FROM retail_sales
+GROUP BY category
+ORDER BY total_sales_revenue DESC
+LIMIT 1;
+    '''
+
+12. **Identify the category with the highest profit margin (total_sale - cogs).**
+    '''sql
+SELECT category,
+      SUM(total_sale - cogs) AS  highest_profit_margin
+FROM retail_sales
+GROUP BY category
+ORDER BY  highest_profit_margin DESC
+LIMIT 1;
+  '''
+13. **What percentage of total sales comes from customers aged above 40?**
+    '''sql
+SELECT 
+    (SUM(CASE WHEN age > 40 THEN total_sale ELSE 0 END) * 100.0) / SUM(total_sale) AS sales_percentage_above_40
+FROM retail_sales;
+  '''
+14. **Find the total sales and average quantity per transaction for each category.**
+    '''sql
+SELECT 
+    category, 
+    SUM(total_sale) AS total_sales, 
+    ROUND(AVG(quantiy), 2) AS avg_quantity_per_transaction
+FROM retail_sales
+GROUP BY category
+ORDER BY total_sales DESC;
+   '''
+15. **What is the trend of sales during weekends compared to weekdays?**
+    '''sql
+SELECT 
+    CASE 
+        WHEN EXTRACT(DOW FROM sale_date) IN (0, 6) THEN 'Weekend'
+        ELSE 'Weekday'
+    END AS day_type,
+    SUM(total_sale) AS total_sales
+FROM retail_sales
+GROUP BY day_type
+ORDER BY total_sales DESC;
+  '''
 ## Findings
 
 - **Customer Demographics**: The dataset includes customers from various age groups, with sales distributed across different categories such as Clothing and Beauty.
