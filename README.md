@@ -76,7 +76,8 @@ The following SQL queries were developed to answer specific business questions:
 SELECT  
 	COUNT(*) AS total_transactions 
   FROM retail_sales;
-   '''
+
+    '''
 3. **What is the total revenue generated from all sales?**
    '''sql
   SELECT
