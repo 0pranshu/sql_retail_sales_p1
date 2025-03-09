@@ -93,6 +93,7 @@ FROM retail_sales;
   FROM retail_sales;
 ```
 4. **What is the peak sales hour of the day based on total sales value?**
+
 ```sql 
 SELECT 
     EXTRACT(HOUR FROM sale_time) AS sales_hour, 
@@ -103,7 +104,8 @@ ORDER BY total_revenue DESC
 LIMIT 1;
    ```
 5. **Which day of the week records the highest sales volume?**
-   ```sql
+
+```sql
 SELECT 
     TO_CHAR(sale_date, 'day') AS sales_day, 
     SUM(total_sale) AS total_revenue
@@ -111,75 +113,75 @@ FROM retail_sales
 GROUP BY sales_day
 ORDER BY total_revenue DESC
 LIMIT 1;
-   ```
+```
 
 6. **What is the monthly trend of total sales in the dataset?**
-   ```sql
+```sql
 SELECT 
     TO_CHAR(sale_date, 'YYYY-MM') AS sales_month, 
     SUM(total_sale) AS total_revenue
 FROM retail_sales
 GROUP BY sales_month
 ORDER BY sales_month;
-   ```
+```
 7. **What is the gender-wise distribution of total sales?**
-   ```sql
+```sql
 SELECT gender,
       SUM(total_sale) AS total_sales
 FROM retail_sales
 GROUP BY gender;
-   ```
+```
 8. **What is the average age of customers making purchases?**
-   ```sql
+```sql
 SELECT 
     ROUND( AVG( age),2) AS avg_age
 FROM retail_sales
-   ```  
+```  
 9. **Identify the top 5 highest-spending customers based on total sales.**
-   ```sql
+```sql
 SELECT customer_id,
       SUM(total_sale) AS total_sale
 FROM retail_sales
 GROUP BY 1
 ORDER BY 2 DESC
 LIMIT 5
-   ```
+```
 10. **What are the top 3 most sold product categories by quantity?**
-    ```sql
+```sql
 SELECT category,
       SUM(quantiy) AS total_quantiy
 FROM retail_sales
 GROUP BY 1
 ORDER BY 2 DESC
-   ```
+```
 
 11. **Which product category generates the highest total sales revenue?**
-   ```sql
+```sql
 SELECT category,
        SUM(total_sale) AS total_sales_revenue
 FROM retail_sales
 GROUP BY category
 ORDER BY total_sales_revenue DESC
 LIMIT 1;
-    ```
+```
 
 12. **Identify the category with the highest profit margin (total_sale - cogs).**
-    ```sql
+```sql
 SELECT category,
       SUM(total_sale - cogs) AS  highest_profit_margin
 FROM retail_sales
 GROUP BY category
 ORDER BY  highest_profit_margin DESC
 LIMIT 1;
-  ```
+```
 13. **What percentage of total sales comes from customers aged above 40?**
-    ```sql
+```sql
 SELECT 
     (SUM(CASE WHEN age > 40 THEN total_sale ELSE 0 END) * 100.0) / SUM(total_sale) AS sales_percentage_above_40
 FROM retail_sales;
-  ```
+```
 14. **Find the total sales and average quantity per transaction for each category.**
-    ```sql
+```sql
 SELECT 
     category, 
     SUM(total_sale) AS total_sales, 
@@ -187,9 +189,9 @@ SELECT
 FROM retail_sales
 GROUP BY category
 ORDER BY total_sales DESC;
-   ```
+```
 15. **What is the trend of sales during weekends compared to weekdays?**
-    ```sql
+```sql
 SELECT 
     CASE 
         WHEN EXTRACT(DOW FROM sale_date) IN (0, 6) THEN 'Weekend'
@@ -199,10 +201,11 @@ SELECT
 FROM retail_sales
 GROUP BY day_type
 ORDER BY total_sales DESC;
-  ```
+```
 ## Findings
 
-- **Customer Demographics**: The dataset includes customers from various age groups, with sales distributed across different categories such as Clothing and Beauty.
+- **Customer Demographics**: The dataset includes customers from various age groups, with sales distributed across different categories 
+  such as Clothing and Beauty.
 - **High-Value Transactions**: Several transactions had a total sale amount greater than 1000, indicating premium purchases.
 - **Sales Trends**: Monthly analysis shows variations in sales, helping identify peak seasons.
 - **Customer Insights**: The analysis identifies the top-spending customers and the most popular product categories.
