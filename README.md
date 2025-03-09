@@ -72,11 +72,11 @@ The following SQL queries were developed to answer specific business questions:
 
 1. **How many total transactions have been recorded in the dataset?**
 
-    '''sql  
+'''sql  
       SELECT  
       COUNT(*) AS total_transactions 
       FROM retail_sales;
-    '''
+'''
 3. **What is the total revenue generated from all sales?**
    '''sql
   SELECT
