@@ -78,21 +78,22 @@ WHERE
 FROM retail_sales;
 
 ```
+2. **What is the total revenue generated from all sales?**
 
-3. **What is the total revenue generated from all sales?**
-   ```sql
+```sql
   SELECT
   SUM (Total_sale) AS total_Sale   
   FROM retail_sales;
-   ```
-4. **What is the average quantity of items sold per transaction?**
-   ```sql
+```
+3. **What is the average quantity of items sold per transaction?**
+
+```sql
   SELECT 
 	  ROUND(AVG(quantiy), 2) AS avg_quantity_per_transaction  
   FROM retail_sales;
-   ```
-5. **What is the peak sales hour of the day based on total sales value?**
-   ```sql 
+```
+4. **What is the peak sales hour of the day based on total sales value?**
+```sql 
 SELECT 
     EXTRACT(HOUR FROM sale_time) AS sales_hour, 
     SUM(total_sale) AS total_revenue
@@ -101,7 +102,7 @@ GROUP BY sales_hour
 ORDER BY total_revenue DESC
 LIMIT 1;
    ```
-6. **Which day of the week records the highest sales volume?**
+5. **Which day of the week records the highest sales volume?**
    ```sql
 SELECT 
     TO_CHAR(sale_date, 'day') AS sales_day, 
@@ -112,7 +113,7 @@ ORDER BY total_revenue DESC
 LIMIT 1;
    ```
 
-7. **What is the monthly trend of total sales in the dataset?**
+6. **What is the monthly trend of total sales in the dataset?**
    ```sql
 SELECT 
     TO_CHAR(sale_date, 'YYYY-MM') AS sales_month, 
@@ -121,20 +122,20 @@ FROM retail_sales
 GROUP BY sales_month
 ORDER BY sales_month;
    ```
-8. **What is the gender-wise distribution of total sales?**
+7. **What is the gender-wise distribution of total sales?**
    ```sql
 SELECT gender,
       SUM(total_sale) AS total_sales
 FROM retail_sales
 GROUP BY gender;
    ```
-9. **What is the average age of customers making purchases?**
+8. **What is the average age of customers making purchases?**
    ```sql
 SELECT 
     ROUND( AVG( age),2) AS avg_age
 FROM retail_sales
    ```  
-10. **Identify the top 5 highest-spending customers based on total sales.**
+9. **Identify the top 5 highest-spending customers based on total sales.**
    ```sql
 SELECT customer_id,
       SUM(total_sale) AS total_sale
@@ -143,7 +144,7 @@ GROUP BY 1
 ORDER BY 2 DESC
 LIMIT 5
    ```
-11. **What are the top 3 most sold product categories by quantity?**
+10. **What are the top 3 most sold product categories by quantity?**
     ```sql
 SELECT category,
       SUM(quantiy) AS total_quantiy
@@ -152,7 +153,7 @@ GROUP BY 1
 ORDER BY 2 DESC
    ```
 
-12. **Which product category generates the highest total sales revenue?**
+11. **Which product category generates the highest total sales revenue?**
    ```sql
 SELECT category,
        SUM(total_sale) AS total_sales_revenue
@@ -162,7 +163,7 @@ ORDER BY total_sales_revenue DESC
 LIMIT 1;
     ```
 
-13. **Identify the category with the highest profit margin (total_sale - cogs).**
+12. **Identify the category with the highest profit margin (total_sale - cogs).**
     ```sql
 SELECT category,
       SUM(total_sale - cogs) AS  highest_profit_margin
@@ -171,13 +172,13 @@ GROUP BY category
 ORDER BY  highest_profit_margin DESC
 LIMIT 1;
   ```
-14. **What percentage of total sales comes from customers aged above 40?**
+13. **What percentage of total sales comes from customers aged above 40?**
     ```sql
 SELECT 
     (SUM(CASE WHEN age > 40 THEN total_sale ELSE 0 END) * 100.0) / SUM(total_sale) AS sales_percentage_above_40
 FROM retail_sales;
   ```
-15. **Find the total sales and average quantity per transaction for each category.**
+14. **Find the total sales and average quantity per transaction for each category.**
     ```sql
 SELECT 
     category, 
@@ -187,7 +188,7 @@ FROM retail_sales
 GROUP BY category
 ORDER BY total_sales DESC;
    ```
-16. **What is the trend of sales during weekends compared to weekdays?**
+15. **What is the trend of sales during weekends compared to weekdays?**
     ```sql
 SELECT 
     CASE 
